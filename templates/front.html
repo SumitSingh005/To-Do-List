@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do Checklist with Review</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-image: url("{{ url_for('static', filename='ss.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            }
+        body {
+            font-family: Arial;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .box {
+        
+        body {
+            font-family: Arial;
+            background-image: url("{{ url_for('static', filename='bg.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            }
+         
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+        h2 { text-align: center; }
+        input, textarea {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+        }
+        button { margin-top: 5px; align:center; }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: #eee;
+            margin-top: 8px;
+            padding: 8px;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .actions a {
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        .review {
+            font-size: 12px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+<div class="box">
+    <h2>To-Do Checklist</h2>
+
+    <form method="post" action="/add">
+        <input type="text" name="task" placeholder="Enter task" required>
+        <textarea name="review" placeholder="Add review (optional)"></textarea>
+        <button>Add Task</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <span class="{{ 'done' if task[0] == '1' else '' }}">
+                {{ loop.index }}. {{ task[1] }}
+            </span>
+
+            <div class="review">
+                Review: {{ task[2] if task|length > 2 else '—' }}
+            </div>
+
+            <div class="actions">
+                <a href="/toggle/{{ loop.index0 }}">✔ Toggle</a>
+                <a href="/delete/{{ loop.index0 }}">❌ Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
